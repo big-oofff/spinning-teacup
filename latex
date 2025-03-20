@@ -1,0 +1,176 @@
+\documentclass{beamer}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+%
+% Choose how your presentation looks.
+%
+% For more themes, color themes and font themes, see:
+% http://deic.uab.es/~iblanes/beamer_gallery/index_by_theme.html
+%
+\mode<presentation>
+{
+  \usetheme{default}      % or try Darmstadt, Madrid, Warsaw, ...
+  \usecolortheme{default} % or try albatross, beaver, crane, ...
+  \usefonttheme{serif}    % or try serif, structurebold, ...
+  \setbeamertemplate{navigation symbols}{}
+  \setbeamertemplate{caption}[numbered]
+} 
+
+\usepackage[english]{babel}
+\usepackage{tikz}
+%\usetikzlibrary{shadows}
+\usepackage[utf8x]{inputenc}
+\usepackage{tikz-cd}
+\usetikzlibrary{quotes,angles}
+
+\title{Analysis of the Spinning Teacup Ride}
+%\title{An introduction to ideal numbers and algebraic number theory}
+\author{}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% Uncomment these lines for an automatically generated outline.
+%\begin{frame}{Outline}
+%  \tableofcontents
+%\end{frame}
+
+\section{Background}
+
+\begin{frame}{Teacup Setup}
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.32]{ride.png}
+    \caption{The shortest distance between adjacent teacups is $(25\sqrt{2} - 26)$ ft $\approx$ 9 ft, wide enough for riders to walk through}
+    \label{fig:1}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}{Amount of Riders per Teacup}
+Each teacup has a circumference of $26\pi$ ft = $312\pi$ in. Consider that the ratio of adults to children is as close to 1:1 as possible. To be able to sit comfortably, there has to be some space between each rider. More specifically, each rider should not be able to touch each other. We can use the average arm span of an adult, which is 69 inches, and the average arm span of a child, which is 54 inches. The average person can fit inside each seat, which has a diameter of 5.8 ft = 69.6 in. A system of linear equations can model this:
+
+\begin{align*}
+\begin{cases}
+        69x + 54y = 312\pi\\
+        x = y
+\end{cases}
+\end{align*}
+where $x$ and $y$ are the number of adults and children, respectively.
+The result is (7.969, 7.969), and to get an integer value, we round down. $\lfloor 7.969 \rfloor = 7$ adults and 7 children.
+
+\end{frame}
+
+\begin{frame}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[scale=0.35]{ppl.png}};
+        \begin{scope}[x={(image.south east)},y={(image.north west)}]
+            % Add labels
+            \node at (0.5, -0.05) {X-axis};
+            \node at (-0.05, 0.5) [rotate=90] {Y-axis};
+        \end{scope}
+    \end{tikzpicture}
+    \caption{The result of the system comes out as (7.969, 7.969)}
+    \label{fig:3}
+\end{figure}
+Since there are four teacups, this means that 28 adults and 28 children at one time is the maximum capacity. 
+\end{frame}
+
+\begin{frame}{Duration and Rate of Spin}
+
+{\large Assuming that the amusement park has only one of these rides, an appropriate ride length $L$ is 90 seconds. The \textit{Fabbri Group}, an amusement ride manufacturing company, states a suggested ride cycle of 120 seconds. However, given the theoretical scarcity of this ride, the duration was shortened by 30 seconds.}
+\vspace{10mm}
+
+{\large The rate of spin of the platform and teacups, as shown before in the setup diagram, is 5 rpm and 2 rpm respectively. \textit{Mack Rides}, another amusement manufacturing company, sets their platform speed at about 8 rpm, so this is a reasonable speed.}
+
+\vspace{2cm}
+\end{frame}
+
+\begin{frame}{Path of a Single Rider Modeled}
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.37]{path.png}
+    \label{fig:4}
+\end{figure}
+A video can be found with this \href{https://drive.google.com/file/d/1bm5KiKlKzg8XSgmM07R2a5z9dvgjTaJ4/view?usp=sharing}{\textcolor{blue}{link}}.
+
+\end{frame}
+
+\begin{frame}
+
+This path can be modeled by the vector function
+\begin{align*}
+f(x(t), y(t)) = \langle r_1 \cos{\omega_1 t} + r_2 \cos{\omega_2 t}, r_1 \sin{\omega_1 t} + r_2 \sin{\omega_2 t} \rangle
+\end{align*}
+where $r_1 = 25$ ft, $r_2 = 13$ ft, $\omega_1 = \frac{\pi}{6} \frac{rad}{s}$, $\omega_2 = \frac{\pi}{15} \frac{rad}{s}$ to produce 
+\begin{align*}
+ f(x(t), y(t)) = \langle 25\cos{\frac{\pi}{6}t} + 13\cos{\frac{\pi}{15}t}, 25\sin{\frac{\pi}{6}t} + 13\sin{\frac{\pi}{15}t} \rangle
+\end{align*}
+This vector function can be used to calculate the total distance a rider travels during a single ride, by computing
+\[ \int_{0}^{90} \lvert f^{\prime}(x,y) \rvert \, dt. \]
+\( f^{\prime}(x,y) = \left\langle \frac{-25\pi}{6}\sin\frac{\pi}{6}t - \frac{13\pi}{15}\sin\frac{\pi}{15}t, \frac{25\pi}{6}\cos\frac{\pi}{6}t + \frac{13\pi}{15}\cos\frac{\pi}{15}t \right\rangle \)
+
+\end{frame}
+
+\begin{frame}
+\begin{align*}
+\lvert f^{\prime}(x,y) \rvert &= {\scriptstyle \sqrt{\left( \frac{-25\pi}{6}\sin \frac{\pi}{6}t - \frac{13\pi}{15}\sin \frac{\pi}{15}t \right)^2 + \left( \frac{25\pi}{6}\cos \frac{\pi}{6}t + \frac{13\pi}{15}\cos \frac{\pi}{15}t \right)^2}}
+\end{align*}
+
+\begin{align*}
+ \int_{0}^{90} \lvert f^{\prime}(x,y) \rvert \, dt \approx 1190.87\ \text{ft}
+\end{align*}
+$f(x(t), y(t))$ can also be used to calculate the magnitude of a rider's acceleration during the ride. 
+{\scriptsize
+\begin{align*}
+\vec{a} &= f^{\prime \prime}(x,y) = \langle \frac{-25\pi^2}{36} \cos \frac{\pi}{6} t - \frac{13\pi^2}{225} \cos \frac{\pi}{15} t, \frac{-25\pi^2}{36} \sin \frac{\pi}{6} t - \frac{13\pi^2}{225} \sin \frac{\pi}{15} t \rangle \\ 
+|\vec{a}| &= \sqrt{\bigg( \frac{-25\pi^2}{36} \cos \frac{\pi}{6} t -\frac{13\pi^2}{225} \cos \frac{\pi}{15} t \bigg)^2 + \bigg( \frac{-25\pi^2}{36} \sin \frac{\pi}{6} t - \frac{13\pi^2}{225} \sin \frac{\pi}{15} t \bigg)^2} \\
+&= \frac{\pi^2}{900} \sqrt{393329 + 65000 \cos\frac{\pi}{10}t}\ \text{ft/s}^2 \\
+     &= \frac{\pi^2}{2952.9} \sqrt{393329 + 65000 \cos\frac{\pi}{10}t}\ \text{m/s}^2
+\end{align*}
+}
+\end{frame}
+\begin{frame}{G-Force Analysis}
+When an individual goes on this ride, they will not only be subject to gravitational acceleration one experiences just by standing still. Since the rider is subject to spinning at fast rates, they experience G-Forces, or multiples of acceleration. The G-Forces that a rider experiences, $G$, can be computed with acceleration.
+\begin{align*}
+G &= \frac{|\vec{a}|}{9.8 \ \text{m/s}^2} \\
+  &= \frac{\frac{\pi^2}{2952.9} \sqrt{393329 + 65000 \cos\frac{\pi}{10}t}\ \text{m/s}^2}{9.8 \ \text{m/s}^2}
+\end{align*}
+
+\end{frame}
+\begin{frame}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[scale=0.22]{gforce.png}};
+        \begin{scope}[x={(image.south east)},y={(image.north west)}]
+            % Add labels
+            \node at (0.5, -0.05) {X-axis};
+            \node at (-0.05, 0.5) [rotate=90] {Y-axis};
+        \end{scope}
+    \end{tikzpicture}
+    \caption{\footnotesize The G-Force of each individual teacup is so small compared to the big platform that the G-Force graph appears to have a constant G-Force of 0.2309}
+    \label{fig:5}
+{\footnotesize For reference, Disney's Magic Kingdom teacup ride produced 0.31 Gs of force when spun by the average child. Average humans can withstand 4-6 Gs, so 0.2309 Gs is well within acceptable parameters. According to ASTM, a standards organization, the limit for G-force peaks at 6 Gs for 1 second. } 
+\end{figure}
+\end{frame}
+\begin{frame}
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.45]{acceptablegs.png}
+    \caption{\footnotesize ASTM limits roller coasters to 6 Gs for 1 second}
+    \label{fig:6}
+\end{figure}
+This means that the enjoyability of this ride will be comparable to that of a Disney ride, albeit a little slower, and very safe.
+\end{frame}
+\begin{frame}{Conclusion}
+In conclusion, an efficient spinning teacup ride should utilize a ride duration of 90 seconds, a cup radius of 13 feet, a seat radius of 2.9 feet, a platform speed of 5 rotations per minute, and a cup speed of 2 rotations per minute. Each ride cycle is comfortable enough to fit 28 children and 28 adults, with each rider subject to 0.2309 Gs, well within safety standards. I have learned that calculus can be accurately and realistically used to produce applications in the real world, through the construction of this ride. Although there are a variety of other factors one must consider while constructing such a ride, this analysis serves as a fundamental component of such a ride.
+\end{frame}
+\end{document}
+
